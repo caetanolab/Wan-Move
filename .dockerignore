@@ -1,0 +1,16 @@
+.git
+.gradio
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache
+.mypy_cache
+.ruff_cache
+Wan-Move-14B-480P
+MoveBench
+outputs
+results
+gradio_results
+*.mp4
+*.whl
