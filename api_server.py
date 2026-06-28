@@ -62,7 +62,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--host", default=os.getenv("WAN_MOVE_HOST", "0.0.0.0"))
     parser.add_argument("--port", type=int, default=int(os.getenv("WAN_MOVE_PORT", "8000")))
     parser.add_argument("--offload_model", type=str2bool, default=False)
-    parser.add_argument("--ulysses_size", type=int, default=2)
+    parser.add_argument("--ulysses_size", type=int, default=1)
     parser.add_argument("--ring_size", type=int, default=1)
     parser.add_argument("--t5_fsdp", action="store_true", default=True)
     parser.add_argument("--no_t5_fsdp", dest="t5_fsdp", action="store_false")
