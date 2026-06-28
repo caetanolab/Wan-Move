@@ -714,7 +714,7 @@ def init_model(args):
     )
     logging.info("Model initialized.")
 
-def generate_video(img, trajectories, prompt, save_dir, track_file, vis_file, smooth):
+def generate_video(img, trajectories, prompt, save_dir, track_file, vis_file, smooth, sample_steps):
     global wan_move_model, model_args, model_cfg, device
     
     if img is None:
@@ -777,6 +777,8 @@ def generate_video(img, trajectories, prompt, save_dir, track_file, vis_file, sm
         return None, None, "Please draw a trajectory OR upload track/visibility files."
     
     logging.info(f"Generating video for prompt: {prompt}")
+    sampling_steps = int(sample_steps) if sample_steps is not None else model_args.sample_steps
+    logging.info(f"Using sample_steps: {sampling_steps}")
     
     seed = model_args.base_seed if model_args.base_seed >= 0 else random.randint(0, sys.maxsize)
     
@@ -814,7 +816,7 @@ def generate_video(img, trajectories, prompt, save_dir, track_file, vis_file, sm
             frame_num=model_args.frame_num,
             shift=current_shift,
             sample_solver=model_args.sample_solver,
-            sampling_steps=model_args.sample_steps,
+            sampling_steps=sampling_steps,
             guide_scale=model_args.sample_guide_scale,
             seed=seed,
             offload_model=model_args.offload_model,
@@ -901,6 +903,13 @@ if __name__ == "__main__":
                         with gr.Group():
                             prompt_input = gr.Textbox(label="Prompt", value="A video of...")
                             save_dir_input = gr.Textbox(label="Save Directory", value="gradio_results")
+                            sample_steps_input = gr.Slider(
+                                label="Sample Steps",
+                                minimum=1,
+                                maximum=80,
+                                step=1,
+                                value=model_args.sample_steps,
+                            )
                             
                             with gr.Accordion("Upload Trajectory", open=False):
                                 gr.Markdown("**Note:** Uploaded files are used directly for generation (High Precision). 'Load Tracks to Editor' approximates them with 5 points (Low Precision).")
@@ -1025,7 +1034,7 @@ if __name__ == "__main__":
                 export_btn.click(export_data, [original_img_state, trajectories_state, save_dir_input, smooth_chk], status_output)
                 
                 gen_btn.click(generate_video, 
-                              [original_img_state, trajectories_state, prompt_input, save_dir_input, track_file_input, vis_file_input, smooth_chk], 
+                              [original_img_state, trajectories_state, prompt_input, save_dir_input, track_file_input, vis_file_input, smooth_chk, sample_steps_input], 
                               [video_output, vis_video_output, status_output])
                 
             with gr.Tab("Gallery"):
