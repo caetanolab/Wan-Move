@@ -68,6 +68,22 @@ Download the completed video:
 curl -L http://localhost:8000/v1/jobs/<job_id>/video -o output.mp4
 ```
 
+## Run a self-contained trajectory test
+
+This creates its own synthetic image and trajectory files, submits a generation job, polls until completion, and downloads the MP4:
+
+```bash
+API_URL=http://localhost:8181 bash scripts/test_api_generation.sh
+```
+
+For a quicker smoke test, reduce sampling steps:
+
+```bash
+API_URL=http://localhost:8181 SAMPLE_STEPS=4 bash scripts/test_api_generation.sh
+```
+
+Outputs are written under `outputs/api-test/`.
+
 ## Useful overrides
 
 PowerShell:
