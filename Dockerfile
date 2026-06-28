@@ -26,7 +26,9 @@ RUN python -m pip install --upgrade pip setuptools wheel packaging ninja \
     && grep -v '^flash_attn' requirements.txt > /tmp/requirements-no-flash.txt \
     && pip install -r /tmp/requirements-no-flash.txt \
     && pip install flash-attn --no-build-isolation \
-    && pip install fastapi "uvicorn[standard]" python-multipart xfuser
+    && pip install fastapi "uvicorn[standard]" python-multipart \
+    && pip install xfuser --no-deps \
+    && python -c "import decord, diffusers; assert diffusers.__version__ == '0.31.0', diffusers.__version__; print('decord', decord.__version__, 'diffusers', diffusers.__version__)"
 
 COPY . .
 
