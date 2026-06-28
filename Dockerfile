@@ -28,7 +28,7 @@ RUN python -m pip install --upgrade pip setuptools wheel packaging ninja \
     && pip install flash-attn --no-build-isolation \
     && pip install fastapi "uvicorn[standard]" python-multipart \
     && pip install xfuser --no-deps \
-    && python -c "import decord, diffusers; assert diffusers.__version__ == '0.31.0', diffusers.__version__; print('decord', decord.__version__, 'diffusers', diffusers.__version__)"
+    && python -c "import decord, diffusers, transformers; from transformers.utils import FLAX_WEIGHTS_NAME; from diffusers import DiffusionPipeline; assert diffusers.__version__ == '0.31.0', diffusers.__version__; assert transformers.__version__ == '4.49.0', transformers.__version__; print('decord', decord.__version__, 'diffusers', diffusers.__version__, 'transformers', transformers.__version__)"
 
 COPY . .
 
