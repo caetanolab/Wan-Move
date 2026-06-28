@@ -46,6 +46,32 @@ bash scripts/run_api.sh
 
 The API listens on `http://localhost:8000`.
 
+## Run the Gradio demo with Docker
+
+Stop the API container first so Gradio can use the GPUs:
+
+```bash
+docker compose down
+```
+
+Then run:
+
+```bash
+PORT=7860 bash scripts/run_gradio.sh
+```
+
+Open:
+
+```text
+http://<GPU-host-ip>:7860
+```
+
+To rebuild before launching:
+
+```bash
+BUILD=1 PORT=7860 bash scripts/run_gradio.sh
+```
+
 ## Submit an example job
 
 ```bash
